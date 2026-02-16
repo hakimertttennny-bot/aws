@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CommerciaAI - Fournisseurs</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+</head>
+<body class="overflow-hidden">
+    <div class="flex h-screen bg-white">
+        <!-- Sidebar Navigation Component -->
+        {% include 'components/sidebar.html' with context %}
+
+        <!-- Main Content -->
+        <main class="flex-1 ml-[20%] overflow-y-auto h-screen max-md:ml-0">
+            <div class="w-full max-md:max-w-full">
+                <div class="flex flex-col pr-2 pl-10 w-full max-md:pl-5 max-md:max-w-full">
+                        <!-- Header -->
+                        <header class="flex z-10 flex-wrap gap-5 justify-between px-20 pt-5 pb-1 w-full bg-white max-md:px-5 max-md:max-w-full">
+                            <div>
+                                <h1 class="self-start text-lg font-extrabold leading-none text-zinc-800">Fournisseurs</h1>
+                                <p class="text-xs text-zinc-500 mt-1">{{ fournisseurs|length }} fournisseur{{ 's' if fournisseurs|length > 1 else '' }}</p>
+                            </div>
+                            <div class="flex gap-1.5 items-start">
+                                <button onclick="openAddModal()" class="flex items-center gap-2 px-4 py-2.5 bg-slate-900 text-white rounded-lg text-xs font-bold hover:bg-slate-800 transition-colors">
+                                    <i class="ti ti-plus"></i>
+                                    Ajouter un fournisseur
+                                </button>
+                            </div>
+                        </header>
+
+                        <!-- Fournisseurs Grid -->
+                        <section class="self-center mt-10 w-full max-w-[1023px] max-md:max-w-full">
+                            {% if fournisseurs %}
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                                {% for fournisseur in fournisseurs %}
+                                <article class="px-6 py-5 rounded-xl border border-solid border-neutral-300 border-opacity-70 bg-white hover:shadow-md transition-shadow">
+                                    <div class="flex items-start justify-between mb-4">
+                                        <div class="flex flex-col justify-center items-center px-3 w-12 h-12 rounded-lg bg-blue-50">
+                                            <i class="ti ti-building text-xl text-blue-500"></i>
+                                        </div>
+                                        <div class="flex gap-2">
+                                            <button onclick="editFournisseur('{{ fournisseur.nom }}')" class="p-2 text-zinc-500 hover:bg-gray-100 rounded-lg transition-colors">
+                                                <i class="ti ti-edit text-sm"></i>
+                                            </button>
+                                            <button onclick="deleteFournisseur('{{ fournisseur.nom }}')" class="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors">
+                                                <i class="ti ti-trash text-sm"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <h3 class="text-lg font-bold text-zinc-800 mb-2">{{ fournisseur.nom }}</h3>
+                                    {% if fournisseur.adresse %}
+                                    <p class="text-xs text-zinc-500 mb-1 flex items-center gap-2">
+                                        <i class="ti ti-map-pin text-xs"></i>
+                                        {{ fournisseur.adresse }}
+                                    </p>
+                                    {% endif %}
+                                    {% if fournisseur.email %}
+                                    <p class="text-xs text-zinc-500 mb-1 flex items-center gap-2">
+                                        <i class="ti ti-mail text-xs"></i>
+                                        {{ fournisseur.email }}
+                                    </p>
+                                    {% endif %}
+                                    {% if fournisseur.telephone %}
+                                    <p class="text-xs text-zinc-500 mb-4 flex items-center gap-2">
+                                        <i class="ti ti-phone text-xs"></i>
+                                        {{ fournisseur.telephone }}
+                                    </p>
+                                    {% endif %}
+                                    <div class="pt-4 border-t border-neutral-300 border-opacity-70">
+                                        <div class="flex justify-between items-center mb-2">
+                                            <span class="text-xs text-zinc-500">Factures</span>
+                                            <span class="font-bold text-sky-500">{{ fournisseur.nb_factures }}</span>
+                                        </div>
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-xs text-zinc-500">Total</span>
+                                            <span class="font-bold text-zinc-800">{{ fournisseur.montant_total }}€</span>
+                                        </div>
+                                    </div>
+                                </article>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            <!-- Empty State -->
+                            <div class="px-6 py-12 rounded-xl border border-solid border-neutral-300 border-opacity-70 bg-white text-center">
+                                <div class="flex flex-col items-center">
+                                    <i class="ti ti-users text-6xl text-zinc-400 mb-4"></i>
+                                    <h3 class="text-lg font-bold text-zinc-800 mb-2">Aucun fournisseur</h3>
+                                    <p class="text-sm text-zinc-500 mb-6">Commencez par ajouter votre premier fournisseur</p>
+                                    <button onclick="openAddModal()" class="inline-flex items-center gap-2 px-6 py-3 bg-slate-900 text-white rounded-lg font-semibold hover:bg-slate-800 transition-colors">
+                                        <i class="ti ti-plus"></i>
+                                        Ajouter un fournisseur
+                                    </button>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </section>
+                    </div>
+                </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit Modal -->
+    <div id="modal" class="fixed inset-0 bg-black/50 z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-xl max-w-md w-full p-6">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-xl font-bold text-zinc-800" id="modalTitle">Ajouter un fournisseur</h3>
+                <button onclick="closeModal()" class="text-zinc-400 hover:text-zinc-600">
+                    <i class="ti ti-x text-xl"></i>
+                </button>
+            </div>
+            <form id="fournisseurForm" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-zinc-700 mb-2">Nom *</label>
+                    <input type="text" id="nom" required class="w-full px-4 py-2 text-sm border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-zinc-700 mb-2">Adresse</label>
+                    <input type="text" id="adresse" class="w-full px-4 py-2 text-sm border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-zinc-700 mb-2">Email</label>
+                    <input type="email" id="email" class="w-full px-4 py-2 text-sm border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-zinc-700 mb-2">Téléphone</label>
+                    <input type="tel" id="telephone" class="w-full px-4 py-2 text-sm border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500">
+                </div>
+                <div class="flex gap-3 pt-4">
+                    <button type="button" onclick="closeModal()" class="flex-1 px-4 py-2 border border-neutral-300 rounded-lg text-zinc-700 font-semibold hover:bg-gray-50">
+                        Annuler
+                    </button>
+                    <button type="submit" class="flex-1 px-4 py-2 bg-slate-900 text-white rounded-lg font-semibold hover:bg-slate-800">
+                        Enregistrer
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function openAddModal() {
+            document.getElementById('modal').classList.remove('hidden');
+            document.getElementById('modal').classList.add('flex');
+            document.getElementById('modalTitle').textContent = 'Ajouter un fournisseur';
+            document.getElementById('fournisseurForm').reset();
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.add('hidden');
+            document.getElementById('modal').classList.remove('flex');
+        }
+
+        function editFournisseur(nom) {
+            openAddModal();
+            document.getElementById('modalTitle').textContent = 'Modifier le fournisseur';
+        }
+
+        function deleteFournisseur(nom) {
+            if (confirm('Êtes-vous sûr de vouloir supprimer ce fournisseur ?')) {
+                alert('Fournisseur supprimé');
+            }
+        }
+
+        document.getElementById('fournisseurForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Fournisseur enregistré');
+            closeModal();
+        });
+    </script>
+</body>
+</html>

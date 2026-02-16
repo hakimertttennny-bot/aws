@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CommerciaAI - Connexion</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+    <style>
+        .gradient-bg {
+            background: white;
+        }
+
+        .image-shadow {
+            filter: drop-shadow(0 15px 40px rgba(59, 130, 246, 0.3)) 
+                    drop-shadow(0 8px 20px rgba(37, 99, 235, 0.25))
+                    drop-shadow(0 0 25px rgba(59, 130, 246, 0.2));
+            transition: filter 0.3s ease;
+        }
+
+        .image-shadow:hover {
+            filter: drop-shadow(0 18px 45px rgba(59, 130, 246, 0.4)) 
+                    drop-shadow(0 10px 25px rgba(37, 99, 235, 0.3))
+                    drop-shadow(0 0 30px rgba(59, 130, 246, 0.25));
+        }
+
+        .elegant-text {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            letter-spacing: -0.02em;
+            line-height: 1.6;
+        }
+
+        .company-name {
+            background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50">
+    <main class="flex w-full min-h-screen max-md:flex-col">
+        <!-- Left Panel - Login Form -->
+        <section class="flex flex-col px-32 py-20 bg-white w-1/2 max-md:p-10 max-md:w-full max-sm:px-5 max-sm:py-8">
+            <!-- Logo -->
+            <header class="mb-20 max-sm:mb-10">
+                <a href="{{ url_for('landing') }}">
+                    <img
+                        src="{{ url_for('static', filename='logo.png') }}"
+                        alt="CommerciaAI Logo"
+                        class="w-40 h-40 max-sm:w-30 max-sm:h-30 object-contain cursor-pointer hover:opacity-80 transition-opacity duration-200"
+                        onerror="this.style.display='none'"
+                    />
+                </a>
+            </header>
+
+            <!-- Login Form -->
+            <div class="flex flex-col max-w-[540px]">
+                <h1 class="mb-3 text-3xl font-bold leading-10 text-gray-900 max-sm:text-2xl max-sm:leading-8">
+                    Connexion
+                </h1>
+
+                <p class="mb-8 text-base leading-6 text-gray-500 max-sm:text-sm max-sm:leading-5">
+                    Entrez vos identifiants pour accéder à votre compte
+                </p>
+
+                <form method="POST" action="{{ url_for('login') }}" class="space-y-6">
+                    <!-- Username Field -->
+                    <div class="flex flex-col">
+                        <label for="username" class="mb-2 text-sm font-medium leading-5 text-gray-900">
+                            Nom d'utilisateur
+                        </label>
+                        <div class="relative">
+                            <input
+                                type="text"
+                                id="username"
+                                name="username"
+                                placeholder="Votre nom d'utilisateur"
+                                class="pr-12 pl-4 w-full h-12 text-sm leading-5 text-gray-900 rounded-lg border border-gray-300 border-solid focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                required
+                            />
+                            <i class="ti ti-user absolute right-4 top-1/2 text-xl text-gray-400 -translate-y-1/2"></i>
+                        </div>
+                    </div>
+
+                    <!-- Password Field -->
+                    <div class="flex flex-col">
+                        <label for="password" class="mb-2 text-sm font-medium leading-5 text-gray-900">
+                            Mot de passe
+                        </label>
+                        <div class="relative">
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Entrez votre mot de passe"
+                                class="pr-12 pl-4 w-full h-12 text-sm leading-5 text-gray-900 rounded-lg border border-gray-300 border-solid focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                required
+                            />
+                            <button
+                                type="button"
+                                id="togglePassword"
+                                class="absolute right-4 top-1/2 -translate-y-1/2 text-xl text-gray-400 hover:text-gray-600 focus:outline-none"
+                                aria-label="Toggle password visibility"
+                            >
+                                <i class="ti ti-eye-off" id="passwordIcon"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Remember Me and Forgot Password -->
+                    <div class="flex justify-between items-center max-sm:flex-col max-sm:gap-4 max-sm:items-start">
+                        <div class="flex gap-2 items-center">
+                            <input
+                                type="checkbox"
+                                id="remember"
+                                name="remember"
+                                class="w-4 h-4 rounded border border-gray-300 border-solid cursor-pointer focus:ring-2 focus:ring-blue-500"
+                            />
+                            <label for="remember" class="text-sm leading-5 text-gray-500 cursor-pointer">
+                                Se souvenir de moi
+                            </label>
+                        </div>
+                        <a href="#" class="text-sm font-medium leading-5 text-blue-500 hover:text-blue-600 focus:outline-none focus:underline">
+                            Mot de passe oublié ?
+                        </a>
+                    </div>
+
+                    <!-- Sign In Button -->
+                    <button
+                        type="submit"
+                        class="flex items-center justify-center w-full h-12 text-base font-semibold leading-6 text-white rounded-lg bg-slate-900 hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 transition-colors duration-200"
+                    >
+                        Se connecter
+                    </button>
+                </form>
+
+                <!-- Divider -->
+                <div class="flex gap-4 items-center my-6">
+                    <div class="flex-1 h-px bg-gray-200"></div>
+                    <span class="text-sm leading-5 text-gray-400">ou</span>
+                    <div class="flex-1 h-px bg-gray-200"></div>
+                </div>
+
+                <!-- Sign Up Link -->
+                <div class="flex gap-2 justify-center items-center text-sm leading-5">
+                    <span class="text-gray-500">Vous n'avez pas de compte ?</span>
+                    <a href="{{ url_for('signup') }}" class="font-medium text-orange-400 hover:text-orange-500 focus:outline-none focus:underline">
+                        Créer un compte
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Right Panel - Image and Content -->
+        <section class="flex overflow-hidden relative flex-col justify-center items-center p-20 gradient-bg w-1/2 max-md:px-10 max-md:py-16 max-md:w-full max-sm:px-5 max-sm:py-10">
+            <!-- Content -->
+            <div class="flex relative z-10 flex-col items-center max-w-[700px] max-md:max-w-[500px] max-sm:max-w-full">
+                <!-- Image with Blue Shadow -->
+                <div class="mb-12 max-md:mb-8 max-sm:mb-6">
+                    <img 
+                        src="{{ url_for('static', filename='kk.png') }}" 
+                        alt="CommerciaAI - Gestion Automatique" 
+                        class="image-shadow w-full max-w-[550px] h-auto object-contain max-md:max-w-[450px] max-sm:max-w-[350px]"
+                        onerror="this.style.display='none'"
+                    />
+                </div>
+
+                <!-- Description Text -->
+                <h2 class="mb-8 elegant-text text-2xl font-semibold leading-relaxed text-center text-gray-800 max-md:text-xl max-md:mb-6 max-sm:text-lg max-sm:mb-5 max-sm:leading-7 px-4">
+                    Extraction automatique de données de factures avec IA : OCR intelligent, annotations visuelles et organisation pour des décisions rapides.
+                </h2>
+
+                <!-- Company Info -->
+                <div class="flex flex-col items-center">
+                    <h3 class="company-name text-2xl font-bold leading-tight max-md:text-xl max-sm:text-lg">
+                        CommerciaAI
+                    </h3>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Password visibility toggle
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const passwordIcon = document.getElementById('passwordIcon');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                passwordIcon.className = 'ti ti-eye';
+            } else {
+                passwordInput.type = 'password';
+                passwordIcon.className = 'ti ti-eye-off';
+            }
+        });
+
+        // Add some interactive animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add hover effects to buttons
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-1px)';
+                });
+
+                button.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+
+            // Add focus effects to inputs
+            const inputs = document.querySelectorAll('input[type="text"], input[type="password"]');
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.style.borderColor = '#3b82f6';
+                    this.style.transition = 'border-color 0.2s ease';
+                });
+
+                input.addEventListener('blur', function() {
+                    this.style.borderColor = '';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

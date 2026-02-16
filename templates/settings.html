@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CommerciaAI - Paramètres</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+</head>
+<body class="overflow-hidden">
+    <div class="flex h-screen bg-white">
+        <!-- Sidebar Navigation Component -->
+        {% include 'components/sidebar.html' with context %}
+
+        <!-- Main Content -->
+        <main class="flex-1 ml-[20%] overflow-y-auto h-screen max-md:ml-0">
+            <div class="w-full max-md:max-w-full">
+                <div class="flex flex-col pr-2 pl-10 w-full max-md:pl-5 max-md:max-w-full">
+                        <!-- Header -->
+                        <header class="flex z-10 flex-wrap gap-5 justify-between px-20 pt-5 pb-1 w-full bg-white max-md:px-5 max-md:max-w-full">
+                            <h1 class="self-start text-lg font-extrabold leading-none text-zinc-800">Paramètres</h1>
+                        </header>
+
+                        <!-- Settings Sections -->
+                        <section class="self-center mt-10 w-full max-w-[1023px] max-md:max-w-full space-y-6">
+                            <!-- Profile Settings -->
+                            <div class="px-6 py-6 rounded-xl border border-solid border-neutral-300 border-opacity-70 bg-white">
+                                <h2 class="text-base font-extrabold text-zinc-800 mb-6 flex items-center gap-2">
+                                    <i class="ti ti-user text-xl text-sky-500"></i>
+                                    Profil
+                                </h2>
+                                <form class="space-y-4">
+                                    <div>
+                                        <label class="block text-xs font-semibold text-zinc-700 mb-2">Nom d'utilisateur</label>
+                                        <input type="text" value="{{ session.get('user', '') }}" class="w-full px-4 py-2 text-sm border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold text-zinc-700 mb-2">Email</label>
+                                        <input type="email" placeholder="votre@email.com" class="w-full px-4 py-2 text-sm border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500">
+                                    </div>
+                                    <button type="submit" class="px-6 py-2 bg-slate-900 text-white rounded-lg font-semibold hover:bg-slate-800 transition-colors">
+                                        Enregistrer les modifications
+                                    </button>
+                                </form>
+                            </div>
+
+                            <!-- OCR Settings -->
+                            <div class="px-6 py-6 rounded-xl border border-solid border-neutral-300 border-opacity-70 bg-white">
+                                <h2 class="text-base font-extrabold text-zinc-800 mb-6 flex items-center gap-2">
+                                    <i class="ti ti-scan text-xl text-sky-500"></i>
+                                    Paramètres OCR
+                                </h2>
+                                <div class="space-y-4">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <h3 class="font-semibold text-zinc-800">Langues par défaut</h3>
+                                            <p class="text-xs text-zinc-500">Sélectionnez les langues pour l'OCR</p>
+                                        </div>
+                                        <select class="px-4 py-2 text-xs border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500">
+                                            <option>Français + Anglais</option>
+                                            <option>Français</option>
+                                            <option>Anglais</option>
+                                        </select>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <h3 class="font-semibold text-zinc-800">Qualité d'analyse</h3>
+                                            <p class="text-xs text-zinc-500">Priorité vitesse ou précision</p>
+                                        </div>
+                                        <select class="px-4 py-2 text-xs border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500">
+                                            <option>Équilibré</option>
+                                            <option>Rapide</option>
+                                            <option>Précis</option>
+                                        </select>
+                                    </div>
+                                    <button class="px-6 py-2 bg-slate-900 text-white rounded-lg font-semibold hover:bg-slate-800 transition-colors">
+                                        Enregistrer
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Notifications -->
+                            <div class="px-6 py-6 rounded-xl border border-solid border-neutral-300 border-opacity-70 bg-white">
+                                <h2 class="text-base font-extrabold text-zinc-800 mb-6 flex items-center gap-2">
+                                    <i class="ti ti-bell text-xl text-sky-500"></i>
+                                    Notifications
+                                </h2>
+                                <div class="space-y-4">
+                                    <label class="flex items-center justify-between p-4 bg-gray-50 rounded-lg cursor-pointer">
+                                        <div>
+                                            <h3 class="font-semibold text-zinc-800">Notifications par email</h3>
+                                            <p class="text-xs text-zinc-500">Recevoir des notifications par email</p>
+                                        </div>
+                                        <input type="checkbox" checked class="rounded border-neutral-300 focus:ring-sky-500">
+                                    </label>
+                                    <label class="flex items-center justify-between p-4 bg-gray-50 rounded-lg cursor-pointer">
+                                        <div>
+                                            <h3 class="font-semibold text-zinc-800">Rappels de factures</h3>
+                                            <p class="text-xs text-zinc-500">Rappels pour les factures en attente</p>
+                                        </div>
+                                        <input type="checkbox" class="rounded border-neutral-300 focus:ring-sky-500">
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Security -->
+                            <div class="px-6 py-6 rounded-xl border border-solid border-neutral-300 border-opacity-70 bg-white">
+                                <h2 class="text-base font-extrabold text-zinc-800 mb-6 flex items-center gap-2">
+                                    <i class="ti ti-lock text-xl text-sky-500"></i>
+                                    Sécurité
+                                </h2>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-xs font-semibold text-zinc-700 mb-2">Nouveau mot de passe</label>
+                                        <input type="password" class="w-full px-4 py-2 text-sm border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold text-zinc-700 mb-2">Confirmer le mot de passe</label>
+                                        <input type="password" class="w-full px-4 py-2 text-sm border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500">
+                                    </div>
+                                    <button class="px-6 py-2 bg-slate-900 text-white rounded-lg font-semibold hover:bg-slate-800 transition-colors">
+                                        Changer le mot de passe
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Danger Zone -->
+                            <div class="px-6 py-6 rounded-xl border border-red-300 bg-red-50">
+                                <h2 class="text-base font-extrabold text-red-800 mb-6 flex items-center gap-2">
+                                    <i class="ti ti-alert-triangle text-xl text-red-600"></i>
+                                    Zone de danger
+                                </h2>
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h3 class="font-semibold text-red-800">Supprimer toutes les données</h3>
+                                        <p class="text-xs text-red-700">Cette action est irréversible</p>
+                                    </div>
+                                    <button class="px-6 py-2 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700 transition-colors">
+                                        Supprimer
+                                    </button>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+        </main>
+    </div>
+</body>
+</html>

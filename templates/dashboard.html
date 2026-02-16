@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CommerciaAI - Tableau de bord</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+</head>
+<body class="overflow-hidden">
+    <div class="flex h-screen bg-white">
+        <!-- Sidebar Navigation Component -->
+        {% include 'components/sidebar.html' with context %}
+
+        <!-- Main Content -->
+        <main class="flex-1 ml-[20%] overflow-y-auto h-screen max-md:ml-0">
+            <div class="w-full max-md:max-w-full">
+                <div class="flex flex-col pr-2 pl-10 w-full max-md:pl-5 max-md:max-w-full">
+                        <!-- Header -->
+                        <header class="flex z-10 flex-wrap gap-5 justify-between px-20 pt-5 pb-1 w-full bg-white max-md:px-5 max-md:max-w-full">
+                            <h1 class="self-start text-lg font-extrabold leading-none text-zinc-800">Dashboard</h1>
+                            <div class="flex gap-1.5 items-start">
+                                <!-- Search Bar -->
+                                <div class="flex gap-3 px-3.5 py-2.5 rounded-lg border border-solid border-neutral-300 border-opacity-70">
+                                    <input type="text" placeholder="Rechercher..." class="flex-auto text-xs font-medium text-zinc-500 bg-transparent border-none outline-none" />
+                                </div>
+                                <!-- Notification Button -->
+                                <button class="text-lg text-center whitespace-nowrap text-zinc-800">
+                                    <div class="flex flex-col justify-center items-center px-3 w-10 h-10 rounded-lg border border-solid border-neutral-300 border-opacity-70">
+                                    </div>
+                                </button>
+                                <!-- User Avatar -->
+                                <div class="flex flex-col justify-center items-center px-3 w-10 h-10 rounded-lg border border-solid border-neutral-300 border-opacity-70 bg-gray-100">
+                                </div>
+                            </div>
+                        </header>
+
+                        <!-- Welcome Section -->
+                        <div class="self-start -mt-2 ml-11 max-md:ml-2.5">
+                            <h2 class="text-2xl font-bold text-zinc-800 mb-2">Bienvenue, {{ session.get('user', 'Utilisateur') }} </h2>
+                            <p class="text-sm text-zinc-500">Voici un aperçu de vos factures</p>
+                        </div>
+
+                        <!-- Main Balance -->
+                        <div class="self-start mt-6 ml-11 max-md:ml-2.5">
+                            <div class="inline-block px-6 py-4 bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl shadow-lg">
+                                <p class="text-sm text-white/80 mb-1">Montant total</p>
+                                <p class="text-5xl font-extrabold text-white">{{ stats.montant_total }}€</p>
+                            </div>
+                        </div>
+
+                        <!-- Metrics Cards -->
+                        <section class="self-center mt-8 w-full max-w-[1023px] max-md:max-w-full">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                                <!-- Total Factures Card -->
+                                <article class="group">
+                                    <div class="flex gap-5 justify-between px-6 py-5 rounded-xl border border-neutral-300 border-opacity-70 bg-white hover:shadow-lg transition-all cursor-pointer">
+                                        <div class="flex flex-col items-start text-zinc-800">
+                                            <h3 class="text-sm font-medium text-zinc-500 mb-1">Total Factures</h3>
+                                            <p class="self-stretch mt-2 text-3xl font-extrabold leading-tight text-orange-600">{{ stats.total_factures }}</p>
+                                            <p class="text-xs font-medium text-zinc-500 mt-1">Factures traitées</p>
+                                        </div>
+                                    </div>
+                                </article>
+
+                                <!-- Factures du Mois Card -->
+                                <article class="group">
+                                    <div class="flex gap-5 justify-between px-6 py-5 rounded-xl border border-neutral-300 border-opacity-70 bg-white hover:shadow-lg transition-all cursor-pointer">
+                                        <div class="flex flex-col items-start text-zinc-800">
+                                            <h3 class="text-sm font-medium text-zinc-500 mb-1">Ce mois</h3>
+                                            <p class="self-stretch mt-2 text-3xl font-extrabold leading-tight text-green-600">{{ stats.factures_mois }}</p>
+                                            <p class="text-xs font-medium text-zinc-500 mt-1">Factures ce mois</p>
+                                        </div>
+                                    </div>
+                                </article>
+
+                                <!-- Fournisseurs Card -->
+                                <article class="group">
+                                    <a href="{{ url_for('fournisseurs') }}" class="flex gap-5 justify-between px-6 py-5 rounded-xl border border-neutral-300 border-opacity-70 bg-white hover:shadow-lg transition-all cursor-pointer">
+                                        <div class="flex flex-col items-start text-zinc-800">
+                                            <h3 class="text-sm font-medium text-zinc-500 mb-1">Fournisseurs</h3>
+                                            <p class="self-stretch mt-2 text-3xl font-extrabold leading-tight text-purple-600">{{ stats.total_fournisseurs }}</p>
+                                            <p class="text-xs font-medium text-zinc-500 mt-1">Fournisseurs actifs</p>
+                                        </div>
+                                    </a>
+                                </article>
+                            </div>
+
+                            <!-- Quick Actions -->
+                            <div class="mt-6 flex gap-3 flex-wrap">
+                                <a href="{{ url_for('import_page') }}" class="px-4 py-2.5 bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition-colors font-medium text-sm">
+                                    Nouvelle facture
+                                </a>
+                                <a href="{{ url_for('mes_factures') }}" class="px-4 py-2.5 bg-white text-zinc-700 border border-neutral-300 rounded-lg hover:bg-gray-50 transition-colors font-medium text-sm">
+                                    Voir toutes les factures
+                                </a>
+                                <a href="{{ url_for('fournisseurs') }}" class="px-4 py-2.5 bg-white text-zinc-700 border border-neutral-300 rounded-lg hover:bg-gray-50 transition-colors font-medium text-sm">
+                                    Gérer les fournisseurs
+                                </a>
+                                <a href="{{ url_for('support') }}" class="px-4 py-2.5 bg-amber-50 text-amber-700 border border-amber-200 rounded-lg hover:bg-amber-100 transition-colors font-medium text-sm">
+                                    Support
+                                </a>
+                            </div>
+                        </section>
+
+                        <!-- Recent Factures Section -->
+                        <section class="self-center pt-3.5 pb-8 mt-5 w-full rounded-xl border border-solid border-neutral-300 border-opacity-70 max-w-[993px] max-md:max-w-full">
+                            <!-- Section Header -->
+                            <header class="flex flex-wrap gap-5 justify-between mr-5 ml-6 font-bold text-zinc-800 max-md:mr-2.5 max-md:max-w-full">
+                                <h2 class="my-auto text-base">Factures récentes</h2>
+                                <div class="flex gap-3 items-center">
+                                    <a href="{{ url_for('mes_factures') }}" class="text-xs text-orange-500 hover:underline">Voir tout</a>
+                                    <a href="{{ url_for('import_page') }}" class="px-3 py-1.5 text-xs font-semibold text-white bg-slate-900 rounded-lg hover:bg-slate-800 transition-colors">
+                                        Nouvelle facture
+                                    </a>
+                                </div>
+                            </header>
+
+                            <!-- Factures List -->
+                            <div class="px-6 mt-6 mb-0 w-full max-md:px-5 max-md:max-w-full">
+                                {% if recent_factures %}
+                                    <div class="space-y-3">
+                                        {% for facture in recent_factures[:5] %}
+                                        <div class="facture-item flex gap-4 items-center p-4 bg-white rounded-lg border border-neutral-300 border-opacity-70 hover:shadow-md transition-all group" data-facture-id="{{ facture.get('id') }}">
+                                            <!-- Content -->
+                                            <div class="flex-1 min-w-0">
+                                                <div class="flex items-start justify-between gap-3">
+                                                    <div class="flex-1 min-w-0">
+                                                        <h3 class="font-semibold text-zinc-800 truncate">{{ facture.get('fournisseur', 'Sans fournisseur') }}</h3>
+                                                        <div class="flex flex-wrap gap-2 mt-1">
+                                                            <p class="text-xs text-zinc-500">N° {{ facture.get('numero_facture', 'N/A') }}</p>
+                                                            <span class="text-zinc-400">•</span>
+                                                            <p class="text-xs text-zinc-500">{{ facture.get('date_facture', 'N/A') }}</p>
+                                                            {% if facture.get('montant_ht') %}
+                                                            <span class="text-zinc-400">•</span>
+                                                            <p class="text-xs text-zinc-500">HT: {{ facture.get('montant_ht') }} {{ facture.get('devise', 'EUR') }}</p>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                    <div class="text-right shrink-0">
+                                                        {% if facture.get('montant_ttc') %}
+                                                        <p class="font-bold text-lg text-orange-600">{{ facture.get('montant_ttc') }} {{ facture.get('devise', 'EUR') }}</p>
+                                                        <p class="text-xs text-zinc-500">TTC</p>
+                                                        {% else %}
+                                                        <p class="text-sm text-zinc-400">Montant non disponible</p>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Actions -->
+                                            <div class="flex gap-2 items-center shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <button class="view-facture-btn px-3 py-2 text-zinc-600 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors text-sm font-medium"
+                                                        data-image-url="{{ url_for('facture_file', filename=facture.get('annotated_image', '')) }}"
+                                                        data-fournisseur="{{ facture.get('fournisseur', 'Facture') }}"
+                                                        data-numero="{{ facture.get('numero_facture', 'N/A') }}"
+                                                        title="Voir la facture">
+                                                    Voir
+                                                </button>
+                                                <button class="delete-facture-btn px-3 py-2 text-zinc-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors text-sm font-medium"
+                                                        data-facture-id="{{ facture.get('id') }}"
+                                                        data-facture-name="{{ facture.get('fournisseur', 'cette facture') }}"
+                                                        title="Supprimer">
+                                                    Supprimer
+                                                </button>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    <div class="text-center py-12 text-zinc-500">
+                                        <h3 class="text-lg font-semibold text-zinc-700 mb-2">Aucune facture récente</h3>
+                                        <p class="text-sm mb-6">Commencez par importer votre première facture</p>
+                                        <a href="{{ url_for('import_page') }}" class="inline-block px-6 py-3 bg-slate-900 text-white rounded-lg font-semibold hover:bg-slate-800 transition-colors">
+                                            Importer une facture
+                                        </a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </section>
+                    </div>
+
+                    <!-- Footer -->
+                    <footer class="flex flex-wrap gap-5 justify-between items-start px-20 pt-5 mt-4 w-full max-md:px-5 max-md:max-w-full">
+                        <nav class="flex gap-6 items-center mt-3.5 text-xs font-bold text-zinc-800">
+                            <a href="#" class="self-stretch my-auto hover:text-zinc-600">Politique de confidentialité</a>
+                            <a href="#" class="self-stretch my-auto hover:text-zinc-600">Licence</a>
+                            <a href="{{ url_for('support') }}" class="self-stretch my-auto hover:text-zinc-600">Centre d'aide</a>
+                            <span class="self-stretch my-auto font-medium text-zinc-500">© 2024 Tous droits réservés</span>
+                        </nav>
+                    </footer>
+                </div>
+        </main>
+    </div>
+
+    <!-- Modal pour afficher la facture -->
+    <div id="viewFactureModal" class="fixed inset-0 bg-black bg-opacity-75 z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-2xl max-w-5xl w-full max-h-[90vh] flex flex-col transform transition-all">
+            <!-- Header -->
+            <div class="flex items-center justify-between p-6 border-b border-gray-200">
+                <div>
+                    <h3 class="text-xl font-bold text-zinc-800" id="viewFactureTitle">Facture</h3>
+                    <p class="text-sm text-zinc-500 mt-1">N° <span id="viewFactureNumber"></span></p>
+                </div>
+                <button onclick="closeViewFactureModal()" class="p-2 text-zinc-400 hover:text-zinc-600 hover:bg-gray-100 rounded-lg transition-colors">
+                    <span class="text-2xl font-bold">×</span>
+                </button>
+            </div>
+            <!-- Image Container -->
+            <div class="flex-1 overflow-auto p-6 bg-gray-50">
+                <div class="flex justify-center items-center min-h-full">
+                    <img id="viewFactureImage" src="" alt="Facture" class="max-w-full h-auto rounded-lg shadow-lg">
+                </div>
+            </div>
+            <!-- Footer -->
+            <div class="flex items-center justify-end gap-3 p-6 border-t border-gray-200">
+                <button onclick="closeViewFactureModal()" class="px-4 py-2 text-zinc-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors font-medium">
+                    Fermer
+                </button>
+                <a id="viewFactureDownload" href="" target="_blank" download class="px-4 py-2 text-white bg-orange-600 rounded-lg hover:bg-orange-700 transition-colors font-medium">
+                    Télécharger
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de confirmation de suppression -->
+    <div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center">
+        <div class="bg-white rounded-xl shadow-2xl max-w-md w-full mx-4 transform transition-all">
+            <div class="p-6">
+                <div class="mb-4">
+                    <h3 class="text-xl font-bold text-zinc-800">Supprimer la facture</h3>
+                </div>
+                <p class="text-zinc-600 mb-6">
+                    Êtes-vous sûr de vouloir supprimer la facture de <span id="deleteFactureName" class="font-semibold"></span> ? 
+                    Cette action est irréversible.
+                </p>
+                <div class="flex gap-3 justify-end">
+                    <button onclick="closeDeleteModal()" class="px-4 py-2 text-zinc-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors font-medium">
+                        Annuler
+                    </button>
+                    <button id="confirmDeleteBtn" onclick="confirmDelete()" class="px-4 py-2 text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors font-medium">
+                        Supprimer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-4 right-4 z-50 transform transition-all translate-x-full">
+        <div class="bg-white rounded-lg shadow-lg border border-gray-200 p-4 flex items-center gap-3 min-w-[300px]">
+            <span id="toastIcon" class="text-xl"></span>
+            <p id="toastMessage" class="flex-1 text-sm font-medium"></p>
+            <button onclick="closeToast()" class="text-zinc-400 hover:text-zinc-600 font-bold">
+                ×
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let factureToDelete = null;
+
+        function viewFacture(imageUrl, fournisseur, numeroFacture) {
+            document.getElementById('viewFactureImage').src = imageUrl;
+            document.getElementById('viewFactureTitle').textContent = fournisseur;
+            document.getElementById('viewFactureNumber').textContent = numeroFacture;
+            document.getElementById('viewFactureDownload').href = imageUrl;
+            document.getElementById('viewFactureModal').classList.remove('hidden');
+            document.getElementById('viewFactureModal').classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeViewFactureModal() {
+            document.getElementById('viewFactureModal').classList.add('hidden');
+            document.getElementById('viewFactureModal').classList.remove('flex');
+            document.body.style.overflow = '';
+        }
+
+        function deleteFacture(id, name) {
+            factureToDelete = id;
+            document.getElementById('deleteFactureName').textContent = name;
+            document.getElementById('deleteModal').classList.remove('hidden');
+            document.getElementById('deleteModal').classList.add('flex');
+        }
+
+        function closeDeleteModal() {
+            factureToDelete = null;
+            document.getElementById('deleteModal').classList.add('hidden');
+            document.getElementById('deleteModal').classList.remove('flex');
+        }
+
+        async function confirmDelete() {
+            if (!factureToDelete) return;
+
+            const btn = document.getElementById('confirmDeleteBtn');
+            btn.disabled = true;
+            btn.innerHTML = 'Suppression...';
+
+            try {
+                const response = await fetch(`/api/facture/${factureToDelete}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    // Supprimer l'élément du DOM
+                    const factureItem = document.querySelector(`[data-facture-id="${factureToDelete}"]`);
+                    if (factureItem) {
+                        factureItem.style.transition = 'all 0.3s ease';
+                        factureItem.style.opacity = '0';
+                        factureItem.style.transform = 'translateX(-20px)';
+                        setTimeout(() => {
+                            factureItem.remove();
+                            // Vérifier s'il reste des factures
+                            const remainingFactures = document.querySelectorAll('.facture-item');
+                            if (remainingFactures.length === 0) {
+                                location.reload();
+                            } else {
+                                // Recharger la page pour mettre à jour les statistiques
+                                setTimeout(() => location.reload(), 500);
+                            }
+                        }, 300);
+                    } else {
+                        location.reload();
+                    }
+                    showToast('Facture supprimée avec succès', 'success');
+                } else {
+                    showToast(data.error || 'Erreur lors de la suppression', 'error');
+                }
+            } catch (error) {
+                showToast('Erreur de connexion', 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'Supprimer';
+                closeDeleteModal();
+            }
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastIcon = document.getElementById('toastIcon');
+            const toastMessage = document.getElementById('toastMessage');
+            
+            toastMessage.textContent = message;
+            
+            if (type === 'success') {
+                toastIcon.textContent = '✓';
+                toastIcon.className = 'text-xl text-green-600 font-bold';
+                toast.querySelector('div').classList.add('border-green-200');
+            } else {
+                toastIcon.textContent = '✗';
+                toastIcon.className = 'text-xl text-red-600 font-bold';
+                toast.querySelector('div').classList.add('border-red-200');
+            }
+            
+            toast.classList.remove('translate-x-full');
+            setTimeout(() => {
+                closeToast();
+            }, 3000);
+        }
+
+        function closeToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('translate-x-full');
+        }
+
+        // Fermer les modales en cliquant à l'extérieur
+        document.getElementById('viewFactureModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeViewFactureModal();
+            }
+        });
+
+        document.getElementById('deleteModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeDeleteModal();
+            }
+        });
+
+        // Fermer la modale avec la touche Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeViewFactureModal();
+                closeDeleteModal();
+            }
+        });
+
+        // Gestion des boutons "Voir"
+        document.querySelectorAll('.view-facture-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const imageUrl = this.getAttribute('data-image-url');
+                const fournisseur = this.getAttribute('data-fournisseur');
+                const numero = this.getAttribute('data-numero');
+                viewFacture(imageUrl, fournisseur, numero);
+            });
+        });
+
+        // Gestion des boutons "Supprimer"
+        document.querySelectorAll('.delete-facture-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const factureId = this.getAttribute('data-facture-id');
+                const factureName = this.getAttribute('data-facture-name');
+                deleteFacture(factureId, factureName);
+            });
+        });
+
+        // Recherche en temps réel
+        const searchInput = document.querySelector('input[placeholder="Rechercher..."]');
+        if (searchInput) {
+            searchInput.addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase();
+                const factureItems = document.querySelectorAll('.facture-item');
+                
+                factureItems.forEach(item => {
+                    const text = item.textContent.toLowerCase();
+                    if (text.includes(searchTerm)) {
+                        item.style.display = '';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>

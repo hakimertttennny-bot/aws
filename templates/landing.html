@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CommerciaAI – Extraction Automatique de Données de Factures</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <main class="main-content">
+            <!-- Header Section -->
+            <div class="header-wrapper">
+                <header class="header">
+                    <div class="logo-section">
+                        <img src="{{ url_for('static', filename='logo.png') }}"
+                             class="logo-image" alt="CommerciaAI Logo"
+                             onerror="this.style.display='none'">
+                        <div class="logo-text">
+                            <span class="logo-commercia">Commercia</span>
+                            <span class="logo-ia">AI</span>
+                        </div>
+                    </div>
+                    <nav class="navigation">
+                        <div class="nav-links">
+                            <span class="nav-h">A</span>
+                            <span class="nav-om">ccueil</span>
+                            <span class="nav-e-about"> Fonctionnalités</span>
+                            <span class="nav-pricing"> Tarifs</span>
+                        </div>
+                        <a href="{{ url_for('login') }}" class="launch-app-btn">
+                            <div class="btn-content">Se connecter</div>
+                        </a>
+                    </nav>
+                </header>
+
+                <!-- Hero Section -->
+                <section class="hero">
+                    <div class="hero-badge">
+                        <div class="badge-new">
+                            <div>Nouveau</div>
+                        </div>
+                        <div class="badge-text">
+                            CommerciaAI intègre maintenant l'extraction intelligente, les annotations visuelles et l'organisation automatique ->
+                        </div>
+                    </div>
+
+                    <h1 class="hero-title">
+                        CommerciaAI – Extraction Automatique de Données de Factures.
+                    </h1>
+
+                    <p class="hero-description">
+                        Exploitez la puissance de l'IA pour automatiser la gestion de vos factures.
+                        Extrayez automatiquement les montants, dates, fournisseurs et autres informations clés,
+                        et prenez des décisions plus rapides et plus intelligentes avec CommerciaAI
+                    </p>
+
+                    <div class="hero-buttons">
+                        <a href="{{ url_for('signup') }}" class="btn-get-started">
+                            <div>Commencer</div>
+                        </a>
+                        <a href="{{ url_for('login') }}" class="btn-preview">
+                            <div>Se connecter</div>
+                        </a>
+                    </div>
+
+                    <div class="hero-image-wrapper">
+                        <img src="{{ url_for('static', filename='kk.png') }}"
+                             class="hero-main-image hero-image-shadow" alt="CommerciaAI - Extraction Automatique"
+                             onerror="this.style.display='none'">
+                    </div>
+                </section>
+            </div>
+
+            <!-- Separation Section -->
+            <section class="separation-section">
+                <div class="separation-content">
+                    <div class="separation-text">
+                        <h2 class="separation-title">Transformez vos factures en données exploitables</h2>
+                        <p class="separation-description">
+                            Notre technologie d'extraction OCR avancée transforme vos documents papier en données structurées,
+                            vous faisant gagner du temps et réduisant les erreurs manuelles.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Technology Section -->
+            <section class="technology-section">
+                <h2 class="section-title">La Technologie Derrière</h2>
+                <p class="section-description">
+                    Exploitez la puissance de l'IA pour automatiser la gestion de vos factures et
+                    débloquer une prise de décision plus intelligente. CommerciaAI vous permet de
+                    bénéficier d'une automatisation intelligente, d'analyses en temps réel et d'outils
+                    de gestion fluides pour accélérer votre croissance dans le monde numérique d'aujourd'hui.
+                </p>
+
+                <div class="features-grid">
+                    <div class="features-row">
+                        <article class="feature-card">
+                            <div class="feature-icon-bg">
+                                <img src="https://api.builder.io/api/v1/image/assets/TEMP/9a9b367246078f2597a9482b91135a926dff7f73?placeholderIfAbsent=true&apiKey=9679c81f9fce4a2388d47447215fbf01"
+                                     class="feature-icon" alt="">
+                            </div>
+                            <h3 class="feature-title">Analyse en Temps Réel</h3>
+                            <p class="feature-description">
+                                CommerciaAI surveille en continu vos factures, extrait les données clés en temps réel et fournit des informations exploitables dès que vous en avez besoin.
+                            </p>
+                        </article>
+
+                        <article class="feature-card highlighted">
+                            <img src="https://api.builder.io/api/v1/image/assets/TEMP/2a57255b668ff44aadc6ca8396d115c32f824267?placeholderIfAbsent=true&apiKey=9679c81f9fce4a2388d47447215fbf01"
+                                 class="feature-icon-simple" alt="">
+                            <h3 class="feature-title">Configuration Simple</h3>
+                            <p class="feature-description">
+                                Commencer est rapide et facile. Créez votre compte en quelques clics, importez vos factures, et vous êtes prêt à optimiser vos opérations instantanément.
+                            </p>
+                        </article>
+
+                        <article class="feature-card">
+                            <img src="https://api.builder.io/api/v1/image/assets/TEMP/13429bc9df65c6dbe3662053be37a56619d22894?placeholderIfAbsent=true&apiKey=9679c81f9fce4a2388d47447215fbf01"
+                                 class="feature-icon-simple" alt="">
+                            <h3 class="feature-title">Sécurisé par Conception</h3>
+                            <p class="feature-description">
+                                CommerciaAI fonctionne avec des contrôles d'accès stricts. Il n'utilise que les permissions nécessaires pour gérer vos factures, sans accès inutile aux données.
+                            </p>
+                        </article>
+                    </div>
+
+                    <div class="features-row">
+                        <article class="feature-card">
+                            <div class="feature-icon-bg">
+                                <img src="https://api.builder.io/api/v1/image/assets/TEMP/8ee8641191db71939a98055414f4c49a39b993ae?placeholderIfAbsent=true&apiKey=9679c81f9fce4a2388d47447215fbf01"
+                                     class="feature-icon-aspect" alt="">
+                            </div>
+                            <h3 class="feature-title">Extraction Intelligente</h3>
+                            <p class="feature-description">
+                                Suivez vos données de factures en temps réel, avec des alertes pour les montants importants ou les tendances inhabituelles.
+                            </p>
+                        </article>
+
+                        <article class="feature-card">
+                            <div class="feature-icon-bg">
+                                <img src="https://api.builder.io/api/v1/image/assets/TEMP/e1cdecd41075c94c68856e72ac58e90501af43d9?placeholderIfAbsent=true&apiKey=9679c81f9fce4a2388d47447215fbf01"
+                                     class="feature-icon" alt="">
+                            </div>
+                            <h3 class="feature-title">Surveillance des Performances</h3>
+                            <p class="feature-description">
+                                Restez au top de la croissance de votre entreprise. Suivez les revenus, les dépenses et les métriques clés en temps réel, permettant des décisions plus intelligentes et une action plus rapide.
+                            </p>
+                        </article>
+
+                        <article class="feature-card">
+                            <img src="https://api.builder.io/api/v1/image/assets/TEMP/db4e0ce244bf3b71c3438b3412574cd4f42789b9?placeholderIfAbsent=true&apiKey=9679c81f9fce4a2388d47447215fbf01"
+                                 class="feature-icon-simple" alt="">
+                            <h3 class="feature-title">Analyses Avancées</h3>
+                            <p class="feature-description">
+                                Plusieurs algorithmes d'IA analysent vos factures, vos fournisseurs et vos données. Recevez des insights pour les opérations quotidiennes, la stratégie à long terme ou la mise à l'échelle de votre entreprise.
+                            </p>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Content Section -->
+            <section class="content-section">
+                <div class="content-grid">
+                    <div class="content-left">
+                        <div class="register-badge">Inscrivez-vous et obtenez</div>
+                        <h2 class="content-title">
+                            Tout ce dont vous avez besoin<br>dans une seule solution
+                        </h2>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="stat-number">1.4k+</div>
+                                <div class="stat-label">Factures Analysées</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">24H</div>
+                                <div class="stat-label">Surveillance Continue</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">99%</div>
+                                <div class="stat-label">Précision OCR</div>
+                            </div>
+                        </div>
+                        <div class="content-image-wrapper">
+                            <img src="https://api.builder.io/api/v1/image/assets/TEMP/37bda530e20afe964d1da40cec04e278d9f5606c?placeholderIfAbsent=true&apiKey=9679c81f9fce4a2388d47447215fbf01"
+                                 class="content-image" alt="Tableau de bord CommerciaAI">
+                        </div>
+                    </div>
+
+                    <div class="content-right">
+                        <div class="content-image-wrapper-top">
+                            <img src="https://api.builder.io/api/v1/image/assets/TEMP/4a8d9917d48c68ecd12472383de36209ee0c9d3c?placeholderIfAbsent=true&apiKey=9679c81f9fce4a2388d47447215fbf01"
+                                 class="content-image" alt="Interface d'apprentissage IA">
+                        </div>
+                        <div class="content-text-section">
+                            <div class="register-badge">Inscrivez-vous et obtenez</div>
+                            <h3 class="content-subtitle">IA qui apprend et s'adapte pour vous</h3>
+                            <p class="content-text">
+                                CommerciaAI apprend et affine continuellement ses algorithmes,
+                                s'adaptant à votre environnement de facturation pour améliorer les performances
+                                et la précision au fil du temps. À chaque interaction, il devient
+                                plus intelligent — fournissant des insights basés sur les données, des flux de travail
+                                optimisés et une automatisation intelligente qui maintient votre entreprise en avance.
+                            </p>
+                            <a href="{{ url_for('signup') }}" class="learn-more-btn">En savoir plus</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Pricing Section -->
+            <section class="pricing-section">
+                <h2 class="section-title">Choisissez le plan qui vous convient !</h2>
+                <p class="section-description">
+                    Trouvez le plan parfait adapté à vos besoins de gestion de factures. Que vous soyez
+                    un débutant ou un professionnel, nos options flexibles garantissent que vous obtenez les fonctionnalités
+                    et le support dont vous avez besoin pour gérer vos factures en toute confiance
+                </p>
+
+                <div class="pricing-toggle">
+                    <div class="toggle-monthly">Mensuel</div>
+                    <div class="toggle-annual">
+                        Annuel <span class="save-text">Économisez 30%</span>
+                    </div>
+                </div>
+
+                <div class="pricing-grid">
+                    <article class="pricing-card">
+                        <h3 class="plan-title">Starter</h3>
+                        <div class="plan-price">29€/Mois</div>
+                        <div class="plan-features">
+                            <div class="feature-item">
+                                <img src="https://api.builder.io/api/v1/image/assets/TEMP/5c76b0cc9903869cde3cfdeebc1601b20f5eb0b0?placeholderIfAbsent=true&apiKey=9679c81f9fce4a2388d47447215fbf01"
+                                     class="check-icon" alt="">
+                                <span>Jusqu'à 50 factures/mois</span>
+                            </div>
+                            <div class="feature-item">
+                                <img src="https://api.builder.io/api/v1/image/assets/TEMP/5c76b0cc9903869cde3cfdeebc1601b20f5eb0b0?placeholderIfAbsent=true&apiKey=9679c81f9fce4a2388d47447215fbf01"
+                                     class="check-icon" alt="">
+                                <span>Extraction de données de base</span>
+                            </div>
+                            <div class="feature-item">
+                                <img src="https://api.builder.io/api/v1/image/assets/TEMP/5c76b0cc9903869cde3cfdeebc1601b20f5eb0b0?placeholderIfAbsent=true&apiKey=9679c81f9fce4a2388d47447215fbf01"
+                                     class="check-icon" alt="">
+                                <span>Annotations visuelles</span>
+                            </div>
+                            <div class="feature-item">
+                                <img src="https://api.builder.io/api/v1/image/assets/TEMP/5c76b0cc9903869cde3cfdeebc1601b20f5eb0b0?placeholderIfAbsent=true&apiKey=9679c81f9fce4a2388d47447215fbf01"
+                                     class="check-icon" alt="">
+                                <span>Support par email</span>
+                            </div>
+                        </div>
+                        <a href="{{ url_for('signup') }}" class="plan-button">Commencer</a>
+                    </article>
+
+                    <article class="pricing-card highlighted">
+                        <h3 class="plan-title">Professionnel</h3>
+                        <div class="plan-price">79€/Mois</div>
+                        <div class="plan-features">
+                            <div class="feature-item">
+                                <img src="https://api.builder.io/api/v1/image/assets/TEMP/5c76b0cc9903869cde3cfdeebc1601b20f5eb0b0?placeholderIfAbsent=true&apiKey=9679c81f9fce4a2388d47447215fbf01"
+                                     class="check-icon" alt="">
+                                <span>Factures illimitées</span>
+                            </div>
+                            <div class="feature-item">
+                                <img src="https://api.builder.io/api/v1/image/assets/TEMP/5c76b0cc9903869cde3cfdeebc1601b20f5eb0b0?placeholderIfAbsent=true&apiKey=9679c81f9fce4a2388d47447215fbf01"
+                                     class="check-icon" alt="">
+                                <span>Extraction avancée avec IA</span>
+                            </div>
+                            <div class="feature-item">
+                                <img src="https://api.builder.io/api/v1/image/assets/TEMP/5c76b0cc9903869cde3cfdeebc1601b20f5eb0b0?placeholderIfAbsent=true&apiKey=9679c81f9fce4a2388d47447215fbf01"
+                                     class="check-icon" alt="">
+                                <span>Gestion des fournisseurs</span>
+                            </div>
+                            <div class="feature-item">
+                                <img src="https://api.builder.io/api/v1/image/assets/TEMP/5c76b0cc9903869cde3cfdeebc1601b20f5eb0b0?placeholderIfAbsent=true&apiKey=9679c81f9fce4a2388d47447215fbf01"
+                                     class="check-icon" alt="">
+                                <span>Support prioritaire</span>
+                            </div>
+                        </div>
+                        <a href="{{ url_for('signup') }}" class="plan-button">Commencer</a>
+                    </article>
+
+                    <article class="pricing-card">
+                        <h3 class="plan-title">Enterprise</h3>
+                        <div class="plan-price">199€/Mois</div>
+                        <div class="plan-features">
+                            <div class="feature-item">
+                                <img src="https://api.builder.io/api/v1/image/assets/TEMP/5c76b0cc9903869cde3cfdeebc1601b20f5eb0b0?placeholderIfAbsent=true&apiKey=9679c81f9fce4a2388d47447215fbf01"
+                                     class="check-icon" alt="">
+                                <span>Factures illimitées</span>
+                            </div>
+                            <div class="feature-item">
+                                <img src="https://api.builder.io/api/v1/image/assets/TEMP/5c76b0cc9903869cde3cfdeebc1601b20f5eb0b0?placeholderIfAbsent=true&apiKey=9679c81f9fce4a2388d47447215fbf01"
+                                     class="check-icon" alt="">
+                                <span>API et intégrations</span>
+                            </div>
+                            <div class="feature-item">
+                                <img src="https://api.builder.io/api/v1/image/assets/TEMP/5c76b0cc9903869cde3cfdeebc1601b20f5eb0b0?placeholderIfAbsent=true&apiKey=9679c81f9fce4a2388d47447215fbf01"
+                                     class="check-icon" alt="">
+                                <span>Analyses avancées</span>
+                            </div>
+                            <div class="feature-item">
+                                <img src="https://api.builder.io/api/v1/image/assets/TEMP/5c76b0cc9903869cde3cfdeebc1601b20f5eb0b0?placeholderIfAbsent=true&apiKey=9679c81f9fce4a2388d47447215fbf01"
+                                     class="check-icon" alt="">
+                                <span>Support dédié 24/7</span>
+                            </div>
+                        </div>
+                        <a href="{{ url_for('signup') }}" class="plan-button">Commencer</a>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Call to Action Section -->
+            <section class="cta-section">
+                <div class="cta-content">
+                    <h2 class="cta-title">Votre Croissance d'Entreprise Commence Ici</h2>
+                    <p class="cta-description">
+                        Rejoignez des milliers de propriétaires d'entreprises qui ont déjà débloqué la
+                        puissance de la gestion de factures pilotée par l'IA. Faites le saut vers des flux de travail plus intelligents,
+                        automatisés et commencez à faire croître votre entreprise dès aujourd'hui !
+                    </p>
+                    <a href="{{ url_for('signup') }}" class="cta-button">
+                        <div class="cta-button-inner">Commencer l'Essai Gratuit</div>
+                    </a>
+                    <div class="cta-note">
+                        <img src="https://api.builder.io/api/v1/image/assets/TEMP/d23c2c942508f86d78da0ade1a867d28e3ad2c0a?placeholderIfAbsent=true&apiKey=9679c81f9fce4a2388d47447215fbf01"
+                             class="note-icon" alt="">
+                        <div class="note-text">
+                            Aucune carte de crédit requise Aucune obligation<br>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FAQ Section -->
+            <section class="faq-section">
+                <h2 class="section-title">Questions Fréquemment Posées</h2>
+                <div class="faq-list">
+                    <article class="faq-item">
+                        <div class="faq-question">
+                            <span>Comment l'algorithme d'IA s'améliore-t-il au fil du temps ?</span>
+                            <img src="https://api.builder.io/api/v1/image/assets/TEMP/ec2fd56b6bd1a604678cca7e9aefcb295f2eab72?placeholderIfAbsent=true&apiKey=9679c81f9fce4a2388d47447215fbf01"
+                                 class="faq-icon" alt="">
+                        </div>
+                        <div class="faq-answer">
+                            CommerciaAI utilise des algorithmes d'apprentissage automatique qui apprennent continuellement de vos données de factures, des interactions utilisateur et des modèles de documents. Le système analyse les performances historiques, identifie les tendances et adapte ses recommandations en conséquence. Avec chaque facture traitée, l'IA devient plus précise dans la prédiction des résultats, l'optimisation des flux de travail et la fourniture d'insights personnalisés adaptés à vos besoins spécifiques de gestion de factures.
+                        </div>
+                    </article>
+
+                    <article class="faq-item">
+                        <div class="faq-question">
+                            <span>CommerciaAI est-il adapté aux débutants ?</span>
+                            <img src="https://api.builder.io/api/v1/image/assets/TEMP/ec2fd56b6bd1a604678cca7e9aefcb295f2eab72?placeholderIfAbsent=true&apiKey=9679c81f9fce4a2388d47447215fbf01"
+                                 class="faq-icon" alt="">
+                        </div>
+                        <div class="faq-answer">
+                            Oui, absolument ! CommerciaAI est conçu pour les débutants et les propriétaires d'entreprises expérimentés. La plateforme dispose d'une interface intuitive, de guides de configuration étape par étape et d'infobulles utiles partout. Notre IA gère automatiquement les calculs complexes et les analyses, vous pouvez donc vous concentrer sur la prise de décisions éclairées basées sur des insights clairs et faciles à comprendre. Nous fournissons également une documentation complète et un support client pour vous aider à démarrer.
+                        </div>
+                    </article>
+
+                    <article class="faq-item">
+                        <div class="faq-question">
+                            <span>Quelle est la sécurité de mon compte et de mes données de factures ?</span>
+                            <img src="https://api.builder.io/api/v1/image/assets/TEMP/ec2fd56b6bd1a604678cca7e9aefcb295f2eab72?placeholderIfAbsent=true&apiKey=9679c81f9fce4a2388d47447215fbf01"
+                                 class="faq-icon" alt="">
+                        </div>
+                        <div class="faq-answer">
+                            La sécurité est notre priorité absolue. CommerciaAI utilise un chiffrement de niveau bancaire (SSL/TLS) pour toutes les transmissions de données, des protocoles d'authentification sécurisés et des audits de sécurité réguliers. Vos données de factures sont stockées dans des bases de données chiffrées avec des contrôles d'accès stricts. Nous suivons les pratiques de sécurité standard de l'industrie, y compris les options d'authentification à deux facteurs, les sauvegardes régulières et la conformité aux réglementations de protection des données. Vos informations ne sont jamais partagées avec des tiers sans votre consentement explicite.
+                        </div>
+                    </article>
+
+                    <article class="faq-item">
+                        <div class="faq-question">
+                            <span>Puis-je personnaliser l'IA ?</span>
+                            <img src="https://api.builder.io/api/v1/image/assets/TEMP/ec2fd56b6bd1a604678cca7e9aefcb295f2eab72?placeholderIfAbsent=true&apiKey=9679c81f9fce4a2388d47447215fbf01"
+                                 class="faq-icon" alt="">
+                        </div>
+                        <div class="faq-answer">
+                            Oui, CommerciaAI offre des options de personnalisation étendues. Vous pouvez configurer les paramètres de l'IA, définir des règles métier personnalisées, ajuster les seuils d'alerte, personnaliser les vues du tableau de bord et définir des flux de travail spécifiques qui correspondent à vos processus de gestion de factures. L'IA apprend de vos préférences et adapte ses recommandations pour s'aligner sur vos objectifs commerciaux et votre style opérationnel. Les utilisateurs avancés peuvent affiner les paramètres de l'algorithme pour un contrôle plus précis.
+                        </div>
+                    </article>
+
+                    <article class="faq-item expanded">
+                        <div class="faq-question">
+                            <span>Comment commencer avec CommerciaAI ?</span>
+                            <img src="https://api.builder.io/api/v1/image/assets/TEMP/c04e716ecd776ef6cddee302acf9b3851bedfbfd?placeholderIfAbsent=true&apiKey=9679c81f9fce4a2388d47447215fbf01"
+                                 class="faq-icon" alt="">
+                        </div>
+                        <div class="faq-answer">
+                            Commencer avec CommerciaAI<br>
+                            Commencer avec CommerciaAI est simple et conçu pour répondre aux besoins des débutants et des propriétaires d'entreprises expérimentés. Voici un guide étape par étape pour vous aider à commencer :<br>
+                            1. Inscription<br>
+                            Rendez-vous sur le site web de CommerciaAI et créez votre compte. Le processus d'inscription est rapide et sécurisé—entrez simplement votre email, créez un mot de passe et complétez le processus de vérification.<br>
+                            2. Sélectionnez Votre Plan<br>
+                            Une fois inscrit, choisissez un plan qui correspond le mieux à vos besoins de gestion de factures. Que vous recherchiez des outils d'extraction de base ou des analyses avancées pilotées par l'IA et une automatisation, nous avons des options adaptées à votre flux de travail. Chaque plan est accompagné d'informations détaillées sur les fonctionnalités et les avantages, vous pouvez donc choisir celui qui correspond à vos objectifs.<br>
+                            3. Importez Vos Factures<br>
+                            Après avoir sélectionné votre plan, importez vos factures existantes—en format image (JPG, PNG) ou PDF. CommerciaAI intègre de manière sécurisée avec ces documents pour automatiser l'extraction, suivre les données et gérer vos factures. Tous les transferts de données sont chiffrés pour garantir que vos informations commerciales restent sécurisées.<br>
+                            4. Commencez à Gérer Plus Intelligemment<br>
+                            Une fois que tout est configuré, activez le système de gestion de factures piloté par l'IA de CommerciaAI. Il analysera continuellement vos factures, vos fournisseurs et vos métriques commerciales en temps réel. Vous pouvez surveiller les performances, recevoir des alertes intelligentes et ajuster les paramètres à tout moment pour optimiser les opérations et la croissance.
+                        </div>
+                    </article>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-left">
+                <div class="footer-brand-label">Logiciel de gestion de factures</div>
+                <img src="{{ url_for('static', filename='logo.png') }}"
+                     class="footer-logo" alt="CommerciaAI Logo"
+                     onerror="this.style.display='none'">
+                <nav class="footer-legal">
+                    <a href="#">Conditions d'utilisation</a>
+                    <a href="#">Politique de confidentialité</a>
+                    <a href="#">Politique des cookies</a>
+                </nav>
+            </div>
+
+            <div class="footer-social">
+                <h4 class="footer-section-title">Réseaux Sociaux</h4>
+                <div class="social-link">
+                    <img src="https://api.builder.io/api/v1/image/assets/TEMP/8717c322480ee2a6f45ebb8ea915504a40ca5947?placeholderIfAbsent=true&apiKey=9679c81f9fce4a2388d47447215fbf01"
+                         class="social-icon" alt="">
+                    <a href="#">Facebook</a>
+                </div>
+                <div class="social-link">
+                    <img src="https://api.builder.io/api/v1/image/assets/TEMP/9f1aad1c53b6323ec953f1e2b6fa45975bd8e30f?placeholderIfAbsent=true&apiKey=9679c81f9fce4a2388d47447215fbf01"
+                         class="social-icon" alt="">
+                    <a href="#">Instagram</a>
+                </div>
+                <div class="social-link">
+                    <img src="https://api.builder.io/api/v1/image/assets/TEMP/221753926b2b49aaadb209c4141534d4e2f2e3a3?placeholderIfAbsent=true&apiKey=9679c81f9fce4a2388d47447215fbf01"
+                         class="social-icon" alt="">
+                    <a href="#">X.com</a>
+                </div>
+                <div class="social-link">
+                    <a href="#">LinkedIn</a>
+                </div>
+            </div>
+
+            <div class="footer-right">
+                <div class="footer-nav-section">
+                    <div class="footer-nav-columns">
+                        <div class="footer-nav-column">
+                            <h4 class="footer-section-title">Menu</h4>
+                            <a href="{{ url_for('landing') }}">Accueil</a>
+                            <a href="#features">Fonctionnalités</a>
+                            <a href="#pricing">Tarifs</a>
+                            <a href="{{ url_for('support') }}">Support</a>
+                        </div>
+                        <div class="footer-nav-column">
+                            <h4 class="footer-section-title">Support</h4>
+                            <a href="{{ url_for('support') }}">Support en direct</a>
+                            <a href="{{ url_for('support') }}">Ouvrir un ticket</a>
+                            <a href="{{ url_for('dashboard') }}">Tableau de bord</a>
+                            <a href="{{ url_for('support') }}">Documentation</a>
+                        </div>
+                    </div>
+                    <a href="#faq" class="faq-link">FAQ</a>
+                </div>
+
+                <div class="newsletter-section">
+                    <div class="newsletter-label">Recevez notre newsletter hebdomadaire</div>
+                    <div class="newsletter-form">
+                        <input type="email" placeholder="votre email" class="newsletter-input">
+                        <button class="newsletter-button">S'abonner</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom-divider"></div>
+
+        <div class="footer-bottom">
+            <div class="copyright">© 2024</div>
+            <img src="https://api.builder.io/api/v1/image/assets/TEMP/7086aff77df4d2cbb9e060802abe624801364e04?placeholderIfAbsent=true&apiKey=9679c81f9fce4a2388d47447215fbf01"
+                 class="payment-methods" alt="Méthodes de paiement">
+        </div>
+    </footer>
+
+    <script>
+        // FAQ Toggle Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const faqQuestions = document.querySelectorAll('.faq-question');
+            
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', function() {
+                    const faqItem = this.parentElement;
+                    const faqAnswer = faqItem.querySelector('.faq-answer');
+                    const faqIcon = this.querySelector('.faq-icon');
+                    
+                    // Close all other FAQ items
+                    document.querySelectorAll('.faq-item').forEach(item => {
+                        if (item !== faqItem) {
+                            item.classList.remove('expanded');
+                            const otherIcon = item.querySelector('.faq-icon');
+                            if (otherIcon) {
+                                otherIcon.src = 'https://api.builder.io/api/v1/image/assets/TEMP/ec2fd56b6bd1a604678cca7e9aefcb295f2eab72?placeholderIfAbsent=true&apiKey=9679c81f9fce4a2388d47447215fbf01';
+                            }
+                        }
+                    });
+                    
+                    // Toggle current FAQ item
+                    faqItem.classList.toggle('expanded');
+                    
+                    // Update icon based on expanded state
+                    if (faqItem.classList.contains('expanded')) {
+                        faqIcon.src = 'https://api.builder.io/api/v1/image/assets/TEMP/c04e716ecd776ef6cddee302acf9b3851bedfbfd?placeholderIfAbsent=true&apiKey=9679c81f9fce4a2388d47447215fbf01';
+                    } else {
+                        faqIcon.src = 'https://api.builder.io/api/v1/image/assets/TEMP/ec2fd56b6bd1a604678cca7e9aefcb295f2eab72?placeholderIfAbsent=true&apiKey=9679c81f9fce4a2388d47447215fbf01';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

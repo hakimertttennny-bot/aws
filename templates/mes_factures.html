@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CommerciaAI - Mes Factures</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+</head>
+<body class="overflow-hidden">
+    <div class="flex h-screen bg-white">
+        <!-- Sidebar Navigation Component -->
+        {% include 'components/sidebar.html' with context %}
+
+        <!-- Main Content -->
+        <main class="flex-1 ml-[20%] overflow-y-auto h-screen max-md:ml-0">
+            <div class="w-full max-md:max-w-full">
+                <div class="flex flex-col pr-2 pl-10 w-full max-md:pl-5 max-md:max-w-full">
+                        <!-- Header -->
+                        <header class="flex z-10 flex-wrap gap-5 justify-between px-20 pt-5 pb-1 w-full bg-white max-md:px-5 max-md:max-w-full">
+                            <div>
+                                <h1 class="self-start text-lg font-extrabold leading-none text-zinc-800">Mes Factures</h1>
+                                <p class="text-xs text-zinc-500 mt-1">{{ factures|length }} facture{{ 's' if factures|length > 1 else '' }}</p>
+                            </div>
+                            <div class="flex gap-1.5 items-start">
+                                <!-- Search Bar -->
+                                <div class="flex gap-3 px-3.5 py-2.5 rounded-lg border border-solid border-neutral-300 border-opacity-70">
+                                    <input type="text" id="searchInput" placeholder="Rechercher..." class="flex-auto text-xs font-medium text-zinc-500 bg-transparent border-none outline-none" />
+                                </div>
+                                <!-- New Invoice Button -->
+                                <a href="{{ url_for('import_page') }}" class="px-4 py-2.5 bg-slate-900 text-white rounded-lg text-xs font-bold hover:bg-slate-800 transition-colors">
+                                    Nouvelle facture
+                                </a>
+                            </div>
+                        </header>
+
+                        <!-- Filters -->
+                        {% if factures %}
+                        <div class="self-center mt-6 w-full max-w-[1023px] max-md:max-w-full">
+                            <div class="flex gap-4 items-center px-6 py-3 bg-gray-50 rounded-lg border border-neutral-300 border-opacity-70">
+                                <span class="text-xs font-medium text-zinc-500">Trier par:</span>
+                                <select id="sortSelect" class="px-3 py-1 text-xs font-medium text-zinc-800 bg-white border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500">
+                                    <option value="date_desc">Date (récent)</option>
+                                    <option value="date_asc">Date (ancien)</option>
+                                    <option value="numero">Numéro de facture</option>
+                                    <option value="fournisseur">Fournisseur</option>
+                                    <option value="montant_desc">Montant (décroissant)</option>
+                                </select>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <!-- Factures Grid -->
+                        <section class="self-center mt-6 w-full max-w-[1023px] max-md:max-w-full">
+                            {% if factures %}
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="facturesGrid">
+                                {% for facture in factures %}
+                                <article class="facture-card px-6 py-5 rounded-xl border border-solid border-neutral-300 border-opacity-70 bg-white hover:shadow-md transition-shadow group" data-date="{{ facture.get('date_facture', '') }}" data-numero="{{ facture.get('numero_facture', '') }}" data-fournisseur="{{ facture.get('fournisseur', '') }}" data-montant="{{ facture.get('montant_ttc', '0') }}" data-facture-id="{{ facture.get('id') }}">
+                                    <!-- Image -->
+                                    <div class="aspect-video bg-gray-100 rounded-lg overflow-hidden mb-4 cursor-pointer" onclick="viewFacture('{{ url_for('facture_file', filename=facture.get('annotated_image', '')) }}', '{{ facture.get('fournisseur', 'Facture') }}', '{{ facture.get('numero_facture', 'N/A') }}')">
+                                        <img src="{{ url_for('facture_file', filename=facture.get('annotated_image', '')) }}" 
+                                             alt="Facture {{ facture.get('numero_facture', '') }}"
+                                             class="w-full h-full object-cover">
+                                    </div>
+                                    
+                                    <!-- Content -->
+                                    <div class="flex items-start justify-between mb-3">
+                                        <div class="flex-1">
+                                            <h3 class="font-bold text-zinc-800 mb-1">
+                                                {{ facture.get('fournisseur', 'Sans fournisseur') }}
+                                            </h3>
+                                            <p class="text-xs text-zinc-500">
+                                                N° {{ facture.get('numero_facture', 'N/A') }}
+                                            </p>
+                                        </div>
+                                        <span class="text-xs font-semibold text-orange-500 bg-orange-50 px-2 py-1 rounded">
+                                            {{ facture.get('devise', 'EUR') }}
+                                        </span>
+                                    </div>
+
+                                    <div class="space-y-2 mb-4">
+                                        <div class="flex justify-between text-xs">
+                                            <span class="text-zinc-500">Date:</span>
+                                            <span class="font-medium text-zinc-800">{{ facture.get('date_facture', 'N/A') }}</span>
+                                        </div>
+                                        {% if facture.get('montant_ttc') %}
+                                        <div class="flex justify-between text-xs">
+                                            <span class="text-zinc-500">TTC:</span>
+                                            <span class="font-bold text-orange-600">{{ facture.get('montant_ttc') }} {{ facture.get('devise', 'EUR') }}</span>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="pt-4 border-t border-neutral-300 border-opacity-70 flex gap-2">
+                                        <button class="view-facture-btn flex-1 px-3 py-2 text-xs text-orange-600 font-semibold hover:bg-orange-50 rounded-lg transition-colors"
+                                                data-image-url="{{ url_for('facture_file', filename=facture.get('annotated_image', '')) }}"
+                                                data-fournisseur="{{ facture.get('fournisseur', 'Facture') }}"
+                                                data-numero="{{ facture.get('numero_facture', 'N/A') }}">
+                                            Voir
+                                        </button>
+                                        <button class="delete-facture-btn px-3 py-2 text-xs text-red-600 font-semibold hover:bg-red-50 rounded-lg transition-colors"
+                                                data-facture-id="{{ facture.get('id') }}"
+                                                data-facture-name="{{ facture.get('fournisseur', 'cette facture') }}">
+                                            Supprimer
+                                        </button>
+                                    </div>
+                                </article>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            <!-- Empty State -->
+                            <div class="px-6 py-12 rounded-xl border border-solid border-neutral-300 border-opacity-70 bg-white text-center">
+                                <div class="flex flex-col items-center">
+                                    <h3 class="text-lg font-bold text-zinc-800 mb-2">Aucune facture</h3>
+                                    <p class="text-sm text-zinc-500 mb-6">Commencez par importer votre première facture</p>
+                                    <a href="{{ url_for('import_page') }}" class="inline-block px-6 py-3 bg-slate-900 text-white rounded-lg font-semibold hover:bg-slate-800 transition-colors">
+                                        Importer une facture
+                                    </a>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </section>
+                    </div>
+                </div>
+        </main>
+    </div>
+
+    <!-- Modal pour afficher la facture -->
+    <div id="viewFactureModal" class="fixed inset-0 bg-black bg-opacity-75 z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-2xl max-w-5xl w-full max-h-[90vh] flex flex-col transform transition-all">
+            <!-- Header -->
+            <div class="flex items-center justify-between p-6 border-b border-gray-200">
+                <div>
+                    <h3 class="text-xl font-bold text-zinc-800" id="viewFactureTitle">Facture</h3>
+                    <p class="text-sm text-zinc-500 mt-1">N° <span id="viewFactureNumber"></span></p>
+                </div>
+                <button onclick="closeViewFactureModal()" class="p-2 text-zinc-400 hover:text-zinc-600 hover:bg-gray-100 rounded-lg transition-colors">
+                    <span class="text-2xl font-bold">×</span>
+                </button>
+            </div>
+            <!-- Image Container -->
+            <div class="flex-1 overflow-auto p-6 bg-gray-50">
+                <div class="flex justify-center items-center min-h-full">
+                    <img id="viewFactureImage" src="" alt="Facture" class="max-w-full h-auto rounded-lg shadow-lg">
+                </div>
+            </div>
+            <!-- Footer -->
+            <div class="flex items-center justify-end gap-3 p-6 border-t border-gray-200">
+                <button onclick="closeViewFactureModal()" class="px-4 py-2 text-zinc-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors font-medium">
+                    Fermer
+                </button>
+                <a id="viewFactureDownload" href="" target="_blank" download class="px-4 py-2 text-white bg-orange-600 rounded-lg hover:bg-orange-700 transition-colors font-medium">
+                    Télécharger
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de confirmation de suppression -->
+    <div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center">
+        <div class="bg-white rounded-xl shadow-2xl max-w-md w-full mx-4 transform transition-all">
+            <div class="p-6">
+                <div class="mb-4">
+                    <h3 class="text-xl font-bold text-zinc-800">Supprimer la facture</h3>
+                </div>
+                <p class="text-zinc-600 mb-6">
+                    Êtes-vous sûr de vouloir supprimer la facture de <span id="deleteFactureName" class="font-semibold"></span> ? 
+                    Cette action est irréversible.
+                </p>
+                <div class="flex gap-3 justify-end">
+                    <button onclick="closeDeleteModal()" class="px-4 py-2 text-zinc-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors font-medium">
+                        Annuler
+                    </button>
+                    <button id="confirmDeleteBtn" onclick="confirmDelete()" class="px-4 py-2 text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors font-medium">
+                        Supprimer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-4 right-4 z-50 transform transition-all translate-x-full">
+        <div class="bg-white rounded-lg shadow-lg border border-gray-200 p-4 flex items-center gap-3 min-w-[300px]">
+            <span id="toastIcon" class="text-xl"></span>
+            <p id="toastMessage" class="flex-1 text-sm font-medium"></p>
+            <button onclick="closeToast()" class="text-zinc-400 hover:text-zinc-600 font-bold">
+                ×
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let factureToDelete = null;
+
+        function viewFacture(imageUrl, fournisseur, numeroFacture) {
+            document.getElementById('viewFactureImage').src = imageUrl;
+            document.getElementById('viewFactureTitle').textContent = fournisseur;
+            document.getElementById('viewFactureNumber').textContent = numeroFacture;
+            document.getElementById('viewFactureDownload').href = imageUrl;
+            document.getElementById('viewFactureModal').classList.remove('hidden');
+            document.getElementById('viewFactureModal').classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeViewFactureModal() {
+            document.getElementById('viewFactureModal').classList.add('hidden');
+            document.getElementById('viewFactureModal').classList.remove('flex');
+            document.body.style.overflow = '';
+        }
+
+        function deleteFacture(id, name) {
+            factureToDelete = id;
+            document.getElementById('deleteFactureName').textContent = name;
+            document.getElementById('deleteModal').classList.remove('hidden');
+            document.getElementById('deleteModal').classList.add('flex');
+        }
+
+        function closeDeleteModal() {
+            factureToDelete = null;
+            document.getElementById('deleteModal').classList.add('hidden');
+            document.getElementById('deleteModal').classList.remove('flex');
+        }
+
+        async function confirmDelete() {
+            if (!factureToDelete) return;
+
+            const btn = document.getElementById('confirmDeleteBtn');
+            btn.disabled = true;
+            btn.innerHTML = 'Suppression...';
+
+            try {
+                const response = await fetch(`/api/facture/${factureToDelete}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    const factureCard = document.querySelector(`[data-facture-id="${factureToDelete}"]`);
+                    if (factureCard) {
+                        factureCard.style.transition = 'all 0.3s ease';
+                        factureCard.style.opacity = '0';
+                        factureCard.style.transform = 'scale(0.95)';
+                        setTimeout(() => {
+                            factureCard.remove();
+                            const remainingFactures = document.querySelectorAll('.facture-card');
+                            if (remainingFactures.length === 0) {
+                                location.reload();
+                            }
+                        }, 300);
+                    } else {
+                        location.reload();
+                    }
+                    showToast('Facture supprimée avec succès', 'success');
+                } else {
+                    showToast(data.error || 'Erreur lors de la suppression', 'error');
+                }
+            } catch (error) {
+                showToast('Erreur de connexion', 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'Supprimer';
+                closeDeleteModal();
+            }
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastIcon = document.getElementById('toastIcon');
+            const toastMessage = document.getElementById('toastMessage');
+            
+            toastMessage.textContent = message;
+            
+            if (type === 'success') {
+                toastIcon.textContent = '✓';
+                toastIcon.className = 'text-xl text-green-600 font-bold';
+                toast.querySelector('div').classList.add('border-green-200');
+            } else {
+                toastIcon.textContent = '✗';
+                toastIcon.className = 'text-xl text-red-600 font-bold';
+                toast.querySelector('div').classList.add('border-red-200');
+            }
+            
+            toast.classList.remove('translate-x-full');
+            setTimeout(() => {
+                closeToast();
+            }, 3000);
+        }
+
+        function closeToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('translate-x-full');
+        }
+
+        // Gestion des boutons "Voir"
+        document.querySelectorAll('.view-facture-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const imageUrl = this.getAttribute('data-image-url');
+                const fournisseur = this.getAttribute('data-fournisseur');
+                const numero = this.getAttribute('data-numero');
+                viewFacture(imageUrl, fournisseur, numero);
+            });
+        });
+
+        // Gestion des boutons "Supprimer"
+        document.querySelectorAll('.delete-facture-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const factureId = this.getAttribute('data-facture-id');
+                const factureName = this.getAttribute('data-facture-name');
+                deleteFacture(factureId, factureName);
+            });
+        });
+
+        // Fermer les modales en cliquant à l'extérieur
+        document.getElementById('viewFactureModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeViewFactureModal();
+            }
+        });
+
+        document.getElementById('deleteModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeDeleteModal();
+            }
+        });
+
+        // Fermer la modale avec la touche Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeViewFactureModal();
+                closeDeleteModal();
+            }
+        });
+
+        // Tri des factures
+        document.getElementById('sortSelect')?.addEventListener('change', function(e) {
+            const grid = document.getElementById('facturesGrid');
+            const factures = Array.from(grid.children);
+            
+            factures.sort((a, b) => {
+                const value = e.target.value;
+                
+                if (value === 'date_desc' || value === 'date_asc') {
+                    const dateA = a.dataset.date || '';
+                    const dateB = b.dataset.date || '';
+                    return value === 'date_desc' ? dateB.localeCompare(dateA) : dateA.localeCompare(dateB);
+                } else if (value === 'numero') {
+                    return (a.dataset.numero || '').localeCompare(b.dataset.numero || '');
+                } else if (value === 'fournisseur') {
+                    return (a.dataset.fournisseur || '').localeCompare(b.dataset.fournisseur || '');
+                } else if (value === 'montant_desc') {
+                    const montantA = parseFloat(a.dataset.montant || '0');
+                    const montantB = parseFloat(b.dataset.montant || '0');
+                    return montantB - montantA;
+                }
+                return 0;
+            });
+            
+            factures.forEach(facture => grid.appendChild(facture));
+        });
+
+        // Recherche en temps réel
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+            searchInput.addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase();
+                const factureCards = document.querySelectorAll('.facture-card');
+                
+                factureCards.forEach(card => {
+                    const text = card.textContent.toLowerCase();
+                    if (text.includes(searchTerm)) {
+                        card.style.display = '';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>

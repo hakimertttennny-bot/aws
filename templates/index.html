@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CommerciaAI - Analyse de Factures</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+</head>
+<body class="overflow-hidden">
+    <div class="flex h-screen bg-white">
+        <!-- Sidebar Navigation Component -->
+        {% include 'components/sidebar.html' with context %}
+
+        <!-- Main Content -->
+        <main class="flex-1 ml-[20%] overflow-y-auto h-screen max-md:ml-0">
+            <div class="w-full max-md:max-w-full">
+                <div class="flex flex-col pr-2 pl-10 w-full max-md:pl-5 max-md:max-w-full">
+                        <!-- Header -->
+                        <header class="flex z-10 flex-wrap gap-5 justify-between px-20 pt-5 pb-1 w-full bg-white max-md:px-5 max-md:max-w-full">
+                            <h1 class="self-start text-lg font-extrabold leading-none text-zinc-800">Analyse de Factures</h1>
+                            <div class="flex gap-1.5 items-start">
+                                <!-- Search Bar -->
+                                <div class="flex gap-3 px-3.5 py-2.5 rounded-lg border border-solid border-neutral-300 border-opacity-70">
+                                    <i class="ti ti-search text-lg text-zinc-800"></i>
+                                    <input type="text" placeholder="Rechercher..." class="flex-auto text-xs font-medium text-zinc-500 bg-transparent border-none outline-none" />
+                                </div>
+                                <!-- Notification Button -->
+                                <button class="text-lg text-center whitespace-nowrap text-zinc-800">
+                                    <div class="flex flex-col justify-center items-center px-3 w-10 h-10 rounded-lg border border-solid border-neutral-300 border-opacity-70">
+                                        <i class="ti ti-bell text-lg"></i>
+                                    </div>
+                                </button>
+                                <!-- User Avatar -->
+                                <div class="flex flex-col justify-center items-center px-3 w-10 h-10 rounded-lg border border-solid border-neutral-300 border-opacity-70 bg-gray-100">
+                                    <i class="ti ti-user text-lg text-zinc-800"></i>
+                                </div>
+                            </div>
+                        </header>
+
+                        <!-- Upload Section -->
+                        <section class="self-center mt-10 w-full max-w-[1023px] max-md:max-w-full">
+                            <!-- Upload Card -->
+                            <div class="px-6 py-8 rounded-xl border border-solid border-neutral-300 border-opacity-70 max-md:px-5">
+                                <h2 class="text-xl font-extrabold text-zinc-800 mb-6">Importer une facture</h2>
+                                
+                                <!-- Drop Zone -->
+                                <div id="uploadBox" class="flex flex-col items-center justify-center p-12 rounded-lg border-2 border-dashed border-neutral-300 border-opacity-70 bg-gray-50 cursor-pointer hover:bg-gray-100 transition-colors">
+                                    <input type="file" id="fileInput" accept="image/*" style="display: none;">
+                                    <div class="upload-content text-center">
+                                        <div class="mb-6">
+                                            <i class="ti ti-cloud-upload text-6xl text-zinc-500"></i>
+                                        </div>
+                                        <h3 class="text-xl font-bold text-zinc-800 mb-2">Glissez-déposez vos documents ici</h3>
+                                        <p class="text-sm text-zinc-500 mb-6">
+                                            PDF, JPG ou PNG supportés. Jusqu'à 16 Mo par fichier.
+                                        </p>
+                                        <button type="button" class="flex items-center gap-2 px-6 py-3 bg-slate-900 text-white rounded-lg font-semibold hover:bg-slate-800 transition-colors">
+                                            <i class="ti ti-file-upload"></i>
+                                            Parcourir les fichiers
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Process Button -->
+                                <button id="processBtn" class="w-full mt-6 px-6 py-3 bg-slate-900 text-white rounded-lg font-semibold hover:bg-slate-800 transition-colors" style="display: none;" disabled>
+                                    <span class="btn-text flex items-center justify-center gap-2">
+                                        <i class="ti ti-scan"></i>
+                                        Traiter la facture
+                                    </span>
+                                    <span class="btn-loader flex items-center justify-center gap-2" style="display: none;">
+                                        <i class="ti ti-loader-2 animate-spin"></i>
+                                        Traitement en cours...
+                                    </span>
+                                </button>
+                            </div>
+                        </section>
+
+                        <!-- Results Section -->
+                        <div id="results" class="self-center mt-10 w-full max-w-[1023px] max-md:max-w-full" style="display: none;">
+                            <!-- Annotated Image -->
+                            <div id="imageContainer" class="px-6 py-6 rounded-xl border border-solid border-neutral-300 border-opacity-70 mb-6 bg-white" style="display: none;">
+                                <h3 class="text-lg font-extrabold text-zinc-800 mb-4 flex items-center gap-2">
+                                    <i class="ti ti-photo text-xl text-sky-500"></i>
+                                    Facture annotée
+                                </h3>
+                                <div class="bg-gray-50 rounded-lg p-4 border border-neutral-300 border-opacity-70">
+                                    <img id="annotatedImage" src="" alt="Facture annotée" class="max-w-full h-auto rounded-lg mx-auto">
+                                </div>
+                            </div>
+
+                            <!-- Extracted Data -->
+                            <div class="px-6 py-6 rounded-xl border border-solid border-neutral-300 border-opacity-70 bg-white mb-6">
+                                <h3 class="text-lg font-extrabold text-zinc-800 mb-6 flex items-center gap-2">
+                                    <i class="ti ti-file-text text-xl text-sky-500"></i>
+                                    Informations extraites
+                                </h3>
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                    <div class="px-4 py-3 bg-gray-50 rounded-lg border border-neutral-300 border-opacity-70">
+                                        <p class="text-xs font-medium text-zinc-500 mb-1">Fournisseur</p>
+                                        <p class="text-base font-extrabold text-zinc-800" id="fournisseur">-</p>
+                                    </div>
+                                    <div class="px-4 py-3 bg-gray-50 rounded-lg border border-neutral-300 border-opacity-70">
+                                        <p class="text-xs font-medium text-zinc-500 mb-1">Date</p>
+                                        <p class="text-base font-extrabold text-zinc-800" id="date">-</p>
+                                    </div>
+                                    <div class="px-4 py-3 bg-gray-50 rounded-lg border border-neutral-300 border-opacity-70">
+                                        <p class="text-xs font-medium text-zinc-500 mb-1">N° Facture</p>
+                                        <p class="text-base font-extrabold text-zinc-800" id="numero_facture">-</p>
+                                    </div>
+                                    <div class="px-4 py-3 bg-gray-50 rounded-lg border border-neutral-300 border-opacity-70">
+                                        <p class="text-xs font-medium text-zinc-500 mb-1">Montant HT</p>
+                                        <p class="text-base font-extrabold text-zinc-800" id="montant_ht">-</p>
+                                    </div>
+                                    <div class="px-4 py-3 bg-gray-50 rounded-lg border border-neutral-300 border-opacity-70">
+                                        <p class="text-xs font-medium text-zinc-500 mb-1">Montant TTC</p>
+                                        <p class="text-base font-extrabold text-sky-500" id="montant_ttc">-</p>
+                                    </div>
+                                    <div class="px-4 py-3 bg-gray-50 rounded-lg border border-neutral-300 border-opacity-70">
+                                        <p class="text-xs font-medium text-zinc-500 mb-1">TVA</p>
+                                        <p class="text-base font-extrabold text-zinc-800" id="tva">-</p>
+                                    </div>
+                                    <div class="px-4 py-3 bg-gray-50 rounded-lg border border-neutral-300 border-opacity-70">
+                                        <p class="text-xs font-medium text-zinc-500 mb-1">Devise</p>
+                                        <p class="text-base font-extrabold text-zinc-800" id="devise">-</p>
+                                    </div>
+                                    <div class="px-4 py-3 bg-gray-50 rounded-lg border border-neutral-300 border-opacity-70 md:col-span-2">
+                                        <p class="text-xs font-medium text-zinc-500 mb-1">Adresse</p>
+                                        <p class="text-sm font-medium text-zinc-700" id="adresse">-</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Full Text -->
+                            <div class="px-6 py-6 rounded-xl border border-solid border-neutral-300 border-opacity-70 bg-white mb-6">
+                                <h3 class="text-lg font-extrabold text-zinc-800 mb-4 flex items-center gap-2">
+                                    <i class="ti ti-file-text text-xl text-sky-500"></i>
+                                    Texte complet extrait
+                                </h3>
+                                <div class="px-4 py-4 bg-gray-50 rounded-lg border border-neutral-300 border-opacity-70 max-h-96 overflow-y-auto">
+                                    <pre class="text-sm text-zinc-700 whitespace-pre-wrap font-mono" id="texte_complet">Aucun texte extrait</pre>
+                                </div>
+                            </div>
+
+                            <!-- Reset Button -->
+                            <button onclick="resetForm()" class="w-full px-6 py-3 bg-gray-100 text-zinc-800 rounded-lg font-semibold hover:bg-gray-200 transition-colors flex items-center justify-center gap-2">
+                                <i class="ti ti-refresh"></i>
+                                Analyser une autre facture
+                            </button>
+                        </div>
+
+                        <!-- Error Message -->
+                        <div id="error" class="self-center mt-6 px-6 py-4 rounded-xl border border-red-300 bg-red-50 text-red-700 font-medium text-center max-w-[1023px]" style="display: none;">                        </div>
+                    </div>
+                </div>
+        </main>
+    </div>
+
+    <script>
+        const uploadBox = document.getElementById('uploadBox');
+        const fileInput = document.getElementById('fileInput');
+        const processBtn = document.getElementById('processBtn');
+        const results = document.getElementById('results');
+        const errorDiv = document.getElementById('error');
+        let selectedFile = null;
+
+        // Gestion du drag & drop
+        uploadBox.addEventListener('click', () => fileInput.click());
+        
+        uploadBox.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadBox.classList.add('border-sky-500', 'bg-sky-50');
+        });
+        
+        uploadBox.addEventListener('dragleave', () => {
+            uploadBox.classList.remove('border-sky-500', 'bg-sky-50');
+        });
+        
+        uploadBox.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadBox.classList.remove('border-sky-500', 'bg-sky-50');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFile(e.target.files[0]);
+            }
+        });
+
+        function handleFile(file) {
+            selectedFile = file;
+            uploadBox.innerHTML = `
+                <div class="upload-content text-center">
+                    <div class="mb-4">
+                        <i class="ti ti-check text-6xl text-green-500"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-zinc-800 mb-1">${file.name}</h3>
+                    <p class="text-sm text-zinc-500">Fichier sélectionné</p>
+                </div>
+            `;
+            processBtn.style.display = 'block';
+            processBtn.disabled = false;
+            results.style.display = 'none';
+            errorDiv.style.display = 'none';
+        }
+
+        processBtn.addEventListener('click', async () => {
+            if (!selectedFile) return;
+
+            const formData = new FormData();
+            formData.append('file', selectedFile);
+
+            processBtn.disabled = true;
+            processBtn.querySelector('.btn-text').style.display = 'none';
+            processBtn.querySelector('.btn-loader').style.display = 'flex';
+            errorDiv.style.display = 'none';
+
+            try {
+                const response = await fetch('/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const responseData = await response.json();
+
+                if (response.ok && responseData.success) {
+                    displayResults({
+                        ...responseData.data,
+                        annotated_image: responseData.annotated_image
+                    });
+                } else {
+                    showError(responseData.error || 'Une erreur est survenue');
+                }
+            } catch (error) {
+                showError('Erreur de connexion: ' + error.message);
+            } finally {
+                processBtn.disabled = false;
+                processBtn.querySelector('.btn-text').style.display = 'flex';
+                processBtn.querySelector('.btn-loader').style.display = 'none';
+            }
+        });
+
+        function displayResults(data) {
+            // Afficher l'image annotée si disponible
+            if (data.annotated_image) {
+                const imgContainer = document.getElementById('imageContainer');
+                const imgElement = document.getElementById('annotatedImage');
+                imgElement.src = data.annotated_image;
+                imgContainer.style.display = 'block';
+            }
+            
+            document.getElementById('fournisseur').textContent = data.fournisseur || '-';
+            document.getElementById('date').textContent = data.date || '-';
+            document.getElementById('numero_facture').textContent = data.numero_facture || '-';
+            document.getElementById('montant_ht').textContent = data.montant_ht ? data.montant_ht + ' ' + data.devise : '-';
+            document.getElementById('montant_ttc').textContent = data.montant_ttc ? data.montant_ttc + ' ' + data.devise : '-';
+            document.getElementById('tva').textContent = data.tva ? data.tva + '%' : '-';
+            document.getElementById('devise').textContent = data.devise || '-';
+            document.getElementById('adresse').textContent = data.adresse || '-';
+            document.getElementById('texte_complet').textContent = data.texte_complet || 'Aucun texte extrait';
+
+            results.style.display = 'block';
+            results.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function showError(message) {
+            errorDiv.textContent = '❌ ' + message;
+            errorDiv.style.display = 'block';
+        }
+
+        function resetForm() {
+            selectedFile = null;
+            fileInput.value = '';
+            uploadBox.innerHTML = `
+                <div class="upload-content text-center">
+                    <div class="mb-6">
+                        <i class="ti ti-cloud-upload text-6xl text-zinc-500"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-zinc-800 mb-2">Glissez-déposez vos documents ici</h3>
+                    <p class="text-sm text-zinc-500 mb-6">
+                        PDF, JPG ou PNG supportés. Jusqu'à 16 Mo par fichier.
+                    </p>
+                    <button type="button" class="flex items-center gap-2 px-6 py-3 bg-slate-900 text-white rounded-lg font-semibold hover:bg-slate-800 transition-colors mx-auto">
+                        <i class="ti ti-file-upload"></i>
+                        Parcourir les fichiers
+                    </button>
+                </div>
+            `;
+            processBtn.style.display = 'none';
+            results.style.display = 'none';
+            document.getElementById('imageContainer').style.display = 'none';
+            errorDiv.style.display = 'none';
+        }
+    </script>
+</body>
+</html>

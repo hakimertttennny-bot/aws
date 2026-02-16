@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CommerciaAI - Support</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+</head>
+<body class="overflow-hidden">
+    <div class="flex h-screen bg-white">
+        <!-- Sidebar Navigation Component -->
+        {% include 'components/sidebar.html' with context %}
+
+        <!-- Main Content -->
+        <main class="flex-1 ml-[20%] overflow-y-auto h-screen max-md:ml-0">
+            <div class="w-full max-md:max-w-full">
+                <div class="flex flex-col pr-2 pl-10 w-full max-md:pl-5 max-md:max-w-full">
+                        <!-- Header -->
+                        <header class="flex z-10 flex-wrap gap-5 justify-between px-20 pt-5 pb-1 w-full bg-white max-md:px-5 max-md:max-w-full">
+                            <h1 class="self-start text-lg font-extrabold leading-none text-zinc-800">Support & Aide</h1>
+                        </header>
+
+                        <!-- Support Sections -->
+                        <section class="self-center mt-10 w-full max-w-[1023px] max-md:max-w-full space-y-6">
+                            <!-- FAQ -->
+                            <div class="px-6 py-6 rounded-xl border border-solid border-neutral-300 border-opacity-70 bg-white">
+                                <h2 class="text-base font-extrabold text-zinc-800 mb-6 flex items-center gap-2">
+                                    <i class="ti ti-help text-xl text-sky-500"></i>
+                                    Questions fréquentes
+                                </h2>
+                                <div class="space-y-4">
+                                    <details class="p-4 bg-gray-50 rounded-lg">
+                                        <summary class="font-semibold text-zinc-800 cursor-pointer">Comment utiliser l'OCR pour analyser une facture ?</summary>
+                                        <p class="mt-2 text-sm text-zinc-600">Téléchargez votre facture en format image (JPG, PNG) ou PDF, puis cliquez sur "Traiter la facture". L'IA extraira automatiquement toutes les informations importantes.</p>
+                                    </details>
+                                    <details class="p-4 bg-gray-50 rounded-lg">
+                                        <summary class="font-semibold text-zinc-800 cursor-pointer">Quels formats de fichiers sont supportés ?</summary>
+                                        <p class="mt-2 text-sm text-zinc-600">Nous supportons les formats JPG, PNG et PDF. La taille maximale est de 16 Mo par fichier.</p>
+                                    </details>
+                                    <details class="p-4 bg-gray-50 rounded-lg">
+                                        <summary class="font-semibold text-zinc-800 cursor-pointer">Comment puis-je exporter mes données ?</summary>
+                                        <p class="mt-2 text-sm text-zinc-600">Vous pouvez exporter vos factures au format JSON ou CSV depuis la page "Mes Factures".</p>
+                                    </details>
+                                    <details class="p-4 bg-gray-50 rounded-lg">
+                                        <summary class="font-semibold text-zinc-800 cursor-pointer">Mes données sont-elles sécurisées ?</summary>
+                                        <p class="mt-2 text-sm text-zinc-600">Oui, toutes vos données sont chiffrées et stockées de manière sécurisée. Nous respectons le RGPD.</p>
+                                    </details>
+                                </div>
+                            </div>
+
+                            <!-- Contact Form -->
+                            <div class="px-6 py-6 rounded-xl border border-solid border-neutral-300 border-opacity-70 bg-white">
+                                <h2 class="text-base font-extrabold text-zinc-800 mb-6 flex items-center gap-2">
+                                    <i class="ti ti-mail text-xl text-sky-500"></i>
+                                    Nous contacter
+                                </h2>
+                                <form class="space-y-4">
+                                    <div>
+                                        <label class="block text-xs font-semibold text-zinc-700 mb-2">Sujet</label>
+                                        <input type="text" placeholder="Votre sujet" class="w-full px-4 py-2 text-sm border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold text-zinc-700 mb-2">Email</label>
+                                        <input type="email" placeholder="votre@email.com" class="w-full px-4 py-2 text-sm border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold text-zinc-700 mb-2">Message</label>
+                                        <textarea rows="5" placeholder="Votre message..." class="w-full px-4 py-2 text-sm border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"></textarea>
+                                    </div>
+                                    <button type="submit" class="px-6 py-2 bg-slate-900 text-white rounded-lg font-semibold hover:bg-slate-800 transition-colors">
+                                        Envoyer
+                                    </button>
+                                </form>
+                            </div>
+
+                            <!-- Documentation -->
+                            <div class="px-6 py-6 rounded-xl border border-solid border-neutral-300 border-opacity-70 bg-white">
+                                <h2 class="text-base font-extrabold text-zinc-800 mb-6 flex items-center gap-2">
+                                    <i class="ti ti-book text-xl text-sky-500"></i>
+                                    Documentation
+                                </h2>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <a href="#" class="flex items-center gap-3 p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                                        <i class="ti ti-file-text text-xl text-sky-500"></i>
+                                        <div>
+                                            <h3 class="font-semibold text-zinc-800">Guide de démarrage</h3>
+                                            <p class="text-xs text-zinc-500">Apprenez les bases</p>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="flex items-center gap-3 p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                                        <i class="ti ti-code text-xl text-sky-500"></i>
+                                        <div>
+                                            <h3 class="font-semibold text-zinc-800">API Documentation</h3>
+                                            <p class="text-xs text-zinc-500">Intégrez notre API</p>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="flex items-center gap-3 p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                                        <i class="ti ti-video text-xl text-sky-500"></i>
+                                        <div>
+                                            <h3 class="font-semibold text-zinc-800">Tutoriels vidéo</h3>
+                                            <p class="text-xs text-zinc-500">Regardez nos vidéos</p>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="flex items-center gap-3 p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                                        <i class="ti ti-users text-xl text-sky-500"></i>
+                                        <div>
+                                            <h3 class="font-semibold text-zinc-800">Communauté</h3>
+                                            <p class="text-xs text-zinc-500">Rejoignez notre forum</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+        </main>
+    </div>
+</body>
+</html>
